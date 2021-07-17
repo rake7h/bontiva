@@ -17,11 +17,13 @@ async function doFetch(url = '', data = {}, opts= {}) {
 }
 
 const createPackage = (data) => doFetch(`${apiHost}/package/new`, data, {method: 'POST'})
+const versionBumpXHR = (data) => doFetch(`${apiHost}/version`, data, {method: 'POST'})
 const getAllWorkspaces = () =>  doFetch(`${apiHost}/workspaces`);
 const getAllPackages = () =>  doFetch(`${apiHost}/packages`);
 
 export {
 	createPackage,
 	getAllWorkspaces,
-	getAllPackages
+	getAllPackages,
+	versionBumpXHR,
 }

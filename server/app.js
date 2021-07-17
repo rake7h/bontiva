@@ -11,9 +11,9 @@ const app = express();
 
 app.use(morgan('combined'));
 
-const users = require('./routes/users');
 const packages = require('./routes/package');
 const workspaces = require('./routes/workspace');
+const version = require('./routes/version');
 
 const WS =  process.env.REPO_PATH;
 // eslint-disable-next-line import/no-dynamic-require
@@ -30,8 +30,9 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser())
 
-app.use(users);
 app.use(packages);
 app.use(workspaces);
+app.use(version);
+
 
 module.exports = app;

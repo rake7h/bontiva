@@ -3,11 +3,11 @@
 const {exec} = require('child_process');
 const util = require('util');
 
-const doExec = async (cmdString) => {
+const doExec = async (cmdString, path) => {
 	const execSync = util.promisify(exec);
 
 	try {
-		const { error, stdout, stderr } = await execSync(cmdString, {cwd: global.WS});
+		const { error, stdout, stderr } = await execSync(cmdString, {cwd: path || global.WS});
 
 		const result = {
 			error,
