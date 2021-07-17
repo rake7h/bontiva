@@ -1,49 +1,55 @@
-import {hot} from 'react-hot-loader/root';
-import React, {useState} from 'react';
-import {Grommet, Box, Grid} from 'grommet';
-import Container from '@material-ui/core/Container';
-import CreatePackageForm from '../Components/CreatePackageForm';
-import PackageList from '../Components/Packages/PackageList';
-import PageHeader from '../Components/PageHeader';
+import { hot } from "react-hot-loader/root";
+import React, { useState } from "react";
+import { Grommet, Box, Grid } from "grommet";
+import Container from "@material-ui/core/Container";
+import CreatePackageForm from "../Components/CreatePackageForm";
+import PackageList from "../Components/Packages/PackageList";
+import Sidebar from "../Components/Sidebar";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 const theme = {
-	global: {
-		font: {
-			family: 'Roboto',
-			size: 'contain',
-		},
-	},
+  global: {
+    font: {
+      family: "Roboto",
+      size: "contain",
+    },
+  },
 };
 
 export function App() {
-	const [pkgOut, setpkgOut] = useState('');
-
-	const packageCreateCB = (out) =>{
-		setpkgOut(JSON.stringify(out.stdout.split(/  +/), undefined, 2));
-	}
-
-	return (
-		<Grommet theme={theme}>
-			<Container>
-				<PageHeader />
-				<Box>
-					<PackageList />
-				</Box>
-				<Grid
-					columns={{
-						count: 2,
-						size: 'auto',
-					}}
-					gap="small"
-				>
-					<Box width="medium">
-						<CreatePackageForm onPackageCreate={packageCreateCB} />
-					</Box>
-					<Box>{pkgOut}</Box>
-				</Grid>
-			</Container>
-		</Grommet>
-	);
+  return (
+    <Grommet theme={theme}>
+      <CssBaseline />
+      <Router>
+        <Grid
+          fill
+          rows={["auto", "flex"]}
+          columns={["auto", "flex"]}
+          areas={[
+            { name: "nav", start: [0, 1], end: [0, 1] },
+            { name: "main", start: [1, 1], end: [1, 1] },
+          ]}
+        >
+          <Box gridArea="nav" background="light-5">
+            <Sidebar />
+          </Box>
+          <Box gridArea="main">
+            <Container>
+              <Switch>
+                <Route path="/packages">
+                  <PackageList />
+                </Route>
+                <Route path="/workspaces">
+                  <CreatePackageForm />
+                </Route>
+              </Switch>
+            </Container>
+          </Box>
+        </Grid>
+      </Router>
+    </Grommet>
+  );
 }
 
 export default hot(App);

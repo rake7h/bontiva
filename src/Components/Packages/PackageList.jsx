@@ -58,7 +58,7 @@ export default function SimpleList() {
               align="center"
               alignContent="center"
             >
-              <Heading margin="none" level="3">
+              <Heading margin="none" level="4">
                 {ws.workspace}/
               </Heading>
             </Box>

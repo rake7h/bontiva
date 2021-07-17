@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import {Form, FormField, TextInput, Box, Button, CheckBoxGroup,Select} from 'grommet';
 import {createPackage, getAllWorkspaces} from '../../helpers/xhr';
 
-const CreatePackageForm = ({onPackageCreate}) => {
+const CreatePackageForm = () => {
 	const [value, setValue] = React.useState({});
 	const [workspaces, setWorkspaces] = React.useState([]);
 
@@ -13,7 +13,8 @@ const CreatePackageForm = ({onPackageCreate}) => {
 			workspace: formData.workspace,
 			options: formData.options,
 		})
-		onPackageCreate(out);
+		setValue({})
+		alert(out.stdout)
 	};
 
 	useEffect(()=>{
