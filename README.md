@@ -1,6 +1,6 @@
 # bontiva
-monorepo packages made easy 
 
+monorepo packages made easy
 
 ## Local run
 
