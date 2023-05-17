@@ -14,8 +14,9 @@ const listPackages = async () => {
 	const cmd = listPackagesCMD();
 	try{
 		const {error, stdout, stderr} = await doExec(cmd);
+		const packData = await parsePackageList(JSON.parse(stdout));
 		const r  = {
-			data: parsePackageList(JSON.parse(stdout))
+			data: packData
 		}
 		return  r;
 	}

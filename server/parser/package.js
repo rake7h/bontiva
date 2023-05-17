@@ -1,30 +1,58 @@
-const parsePackageList = (json) => {
-	const parsedData = json.map((item) => {
-		console.log('item', item.location)
-		console.log('item', item.location.split(global.WS)[1])
-		const pr = item.location.split(global.WS)[1].split('/');
-		pr[pr.length - 1] = undefined;
-		const ws = pr.join('');
-		item.workspace = ws;
-		return item;
-	});
+const { readPackageByPath } = require("../helpers/package-read");
+const { getSizeOfPackageFile } = require("../helpers/folder-size");
 
-	const groupedByWorkspace = parsedData.reduce((r, a) => {
-		r[a.workspace] = r[a.workspace] || [];
-		r[a.workspace].push(a);
-		return r;
-	}, Object.create(null));
+const parsePackageList = async (json) => {
+  // add workspace name in package data
+  const parsedData = json.map(async (p) => {
+    const pr = p.location.split(global.WS)[1].split("/");
+    pr[pr.length - 1] = undefined;
+    const ws = pr.join("");
+    p.workspace = ws;
 
-	const wskeys = Object.getOwnPropertyNames(groupedByWorkspace);
-	const finalList = [];
+    const { files } = await readPackageByPath(p.location);
+    const s = getSizeOfPackageFile(p.location, files);
+    p.size = s;
+    return p;
+  });
 
-	wskeys.forEach((item) => {
-		finalList.push({
-			workspace: item,
-			packages: groupedByWorkspace[item],
-		});
-	});
-	return finalList;
+  const d = await Promise.all(parsedData);
+
+  /**
+   ws1:[
+		 {pkg1},
+		 {pkg2}
+	 ],
+	 ws2:[
+		 {pkg3},
+		 {pkg4}
+	 ]
+	*/
+  const groupedByWorkspace = d.reduce((r, a) => {
+    r[a.workspace] = r[a.workspace] || [];
+    r[a.workspace].push(a);
+    return r;
+  }, Object.create(null));
+
+  const wskeys = Object.getOwnPropertyNames(groupedByWorkspace);
+  const finalList = [];
+
+  /**
+   {
+		 	workspace:'ws1',
+			packages: []
+	 },
+	 {
+		 	workspace:'ws2',
+			packages: []
+	 }
+	*/
+  wskeys.forEach((item) => {
+    finalList.push({
+      workspace: item,
+      packages: groupedByWorkspace[item],
+    });
+  });
+  return finalList;
 };
 
-module.exports = {parsePackageList};
+module.exports = { parsePackageList };
