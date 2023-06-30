@@ -1,8 +1,8 @@
-const readJson = require("read-package-json-fast");
+const readPackageJSON = require("read-package-json-fast");
 
 const readPackageByPath = async (path) => {
-  // readJson(filename, [logFunction=noop], [strict=false], cb)
-  return readJson(path + "/package.json");
+  // readPackageJSON(filename, [logFunction=noop], [strict=false], cb)
+  return readPackageJSON(path + "/package.json");
 };
 
 module.exports = { readPackageByPath };
