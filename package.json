@@ -2,6 +2,10 @@
   "name": "bontiva",
   "version": "0.0.0",
   "private": true,
+  "engines": {
+    "node": ">=18.16",
+    "npm": "use-yarn"
+  },
   "scripts": {
     "dev:api": "nodemon ./server/bin/www",
     "dev:client": "webpack serve --config webpack/webpack.dev.config.js",
@@ -28,5 +32,9 @@
   },
   "workspaces": [
     "packages/*"
-  ]
+  ],
+  "main": "index.js",
+  "repository": "https://github.com/rake7h/bontiva.git",
+  "author": "Rakesh <rake7h@gmail.com>",
+  "license": "MIT"
 }
